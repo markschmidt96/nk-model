@@ -5,7 +5,7 @@
 #execute foreach library
 library(foreach)
 
-N = 5 ##N = Number of characteristics (e.g. product characteristics)
+N = 10 ##N = Number of characteristics (e.g. product characteristics)
 K = 2 ##currently only working with no interdependencies (K=0)
 
 landscape = expand.grid(replicate(N, 0:1, simplify = FALSE)) #create all combinations
@@ -76,3 +76,37 @@ gen_fitness <- function(N,K,landscape) {
 }
 
 landscape$fitness = gen_fitness(N,K,landscape)
+
+
+#climb_index is the climbing point of the hill climb
+
+
+hill_climb <- function(landscape, climb_index=N/2){
+  
+  
+  pot = as.matrix(landscape[,1:N])
+  
+  y <- c(pot[,N])
+  
+  l <- climb_index - 1
+  r <- climb_index + 1
+  
+  if(l < 0) {yl <- 0} else {yl <- as.numeric(y[l])}
+  if(r > N) {yr <- 0} else {yr <- as.numeric(y[r])}
+  
+  yi <- as.numeric(y[climb_index])
+  
+  if ( yi >= yl && yi >= yr){
+    return(climb_index)
+  }
+  
+  if(yl > yr) {
+    
+    return(hill_climb(landscape, l))
+  } else {
+    
+    return(climb(y,r))
+    
+  }
+  
+}
