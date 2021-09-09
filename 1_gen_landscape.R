@@ -1,4 +1,4 @@
-
+library(foreach)
 
 nk_landscape <-function(N,K){
   
@@ -55,3 +55,6 @@ nk_landscape <-function(N,K){
   
   
 }
+
+
+
